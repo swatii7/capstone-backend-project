@@ -1,16 +1,14 @@
 import React from "react";
 import '../styles/App.css';
 import '../styles/bootstrap.min.css'
-import MainPage from "../layout/MainPage";
+import Template from "./Template";
 
 const App = () => {
 
   // write your code here
-  return (
-    <>
-      <MainPage />
-    </>
-  );
+  return (<>
+    <Template />
+  </>);
 }
 
 

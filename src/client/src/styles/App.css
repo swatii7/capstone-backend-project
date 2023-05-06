@@ -57,3 +57,16 @@ input {
     margin-right: 10px;
     ;
 }
+
+/* .btn:hover{
+    background-color: #d37373 !important;
+    color : black !important
+  }
+  
+  
+  */
+  
+  .active-btn{
+    background-color: #d37373 !important;
+    
+  } 
