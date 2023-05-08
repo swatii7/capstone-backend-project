@@ -31,14 +31,14 @@ app.get('/api/bookings', function(req, res) {
         } else {
             console.log(data);
             //respond send 
-            res.status(200).json ({data:data});
+            res.status(200).json ({data});
         }
     });
       
       
     } catch (err) {
       console.error(err);
-      res.status(500).json ({error:"BInternal Server Error"});
+      res.status(500).json ({error:"Internal Server Error"});
     }
 })
 

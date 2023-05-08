@@ -25,6 +25,7 @@ export default function SelectContainer(props) {
               {props.items.map((item,index) => (
                 <React.Fragment key={index}>
                   {props.type !== "number" ? (
+                    //movie or slot button
                     <button
                       type="button"
                       className={
@@ -39,6 +40,7 @@ export default function SelectContainer(props) {
                     </button>
                   ) : 
                   (
+                    //seats 
                     <div
                       style={{
                         border: "1px solid black",
