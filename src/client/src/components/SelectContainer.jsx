@@ -59,7 +59,7 @@ export default function SelectContainer(props) {
                         aria-describedby="inputGroup-sizing-sm"
                         type="number"
                         name={item.toLowerCase()}
-                        value={props.seats[item.toLowerCase()]}
+                        value={props.seats && props.seats[item.toLowerCase()]}
                         onChange={(e) =>props.onchange(e)}
                         style={{ width: "77%" }}
                       />

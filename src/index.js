@@ -53,10 +53,12 @@ app.post('/api/bookings', function(req, res) {
   else{
 
   let newDocument = new connection({
-    movie: req.body.movie,
-    slot: req.body.slot,
-    seats: req.body.seats
+    movie: movie,
+    slot: slot,
+    seats: seats
+    
 });
+
 
     try {
       newDocument.save((error) => {
