@@ -93,3 +93,45 @@ input {
   z-index: 999;
   background-color: rgb(0,0,0,0.2);
 }
+
+.LastBooking{
+    border: 1px solid black;
+    border-radius: 7px;
+    padding: 12px;
+    width: 310px;
+    height: auto;
+    display: grid;
+}
+
+.ContainerStyle{
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.selectorWrapper{
+    display: flex;
+    padding: 19px 0px;
+}
+
+.seatWrapper{
+    border: 1px solid black;
+    margin: 0px 14px 0px 4px;
+    border-radius: 8px;
+    padding: 10px 0px 10px 21px;
+    width: 116px;
+}
+
+.BookingButton{
+
+    background: radial-gradient(circle, rgb(238, 174, 202) 0%, rgba(148, 187, 233, 0.325) 100%);
+    font-weight: 600;
+
+}
+
+.spinnerWrapper{
+    position: absolute;
+    left: 120px;
+    top: -2px;
+}

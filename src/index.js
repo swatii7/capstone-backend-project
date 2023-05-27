@@ -48,7 +48,7 @@ app.post('/api/bookings', function(req, res) {
   const {movie, slot, seats} = req.body;  //destructing
   //validation 
   if(!movie || !slot || !seats ){
-    res.status(400).json ({error:"Invalid Requst, Please select a movie, slot and seats"});
+    res.status(400).json ({error:"Invalid Request, Please select a movie, slot and seats"});
   }
   else{
 

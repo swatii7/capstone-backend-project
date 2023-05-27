@@ -1,13 +1,28 @@
-import React, { useEffect } from "react";
-import SelectContainer from "./SelectContainer";
-import { useState } from "react";
-import { movies, slots, seats } from "./data.js";
 import axios from "axios";
+import { SnackbarProvider, enqueueSnackbar } from "notistack";
+import React, { useEffect, useState } from "react";
+import Alert from "react-bootstrap/Alert";
+import Spinner from "react-bootstrap/Spinner";
 import LastBookingDetails from "./LastBookingDetails";
-import Spinner from "../styles/bootstrap.min.css";
-import Alert from 'react-bootstrap/Alert';
+import SelectContainer from "./SelectContainer";
+import { movies, seats, slots } from "./data.js";
 
-export default function Template(props) {
+// function for seats (validation on negative numbers)
+function containesNegtiveVal(seats) {
+  let hasNegativeValue = false;
+
+  for (const seat in seats) {
+    if (seats.hasOwnProperty(seat) && seats[seat] < 0) {
+      hasNegativeValue = true;
+      break;
+    }
+  }
+
+  return hasNegativeValue;
+}
+
+export default function Template() {
+  //state
   const [state, setState] = useState({
     movie: "",
     timeSlots: "",
@@ -17,51 +32,106 @@ export default function Template(props) {
       a3: 0,
       a4: 0,
       d1: 0,
-      d2: 0
+      d2: 0,
     },
-    // isLoading: false,
-    lastBooking: null,
+    isLoading: false,
     showSuccessAlert: false,
   });
 
-  useEffect(() =>{
+  //other state for last booking
+  const [lastBooking, setlastBooking] = useState({
+    movie: "",
+    timeSlots: "",
+    dataPresent: false,
+    iSfinishLoading: false, // state for last booking message
+    seats: {
+      a1: 0,
+      a2: 0,
+      a3: 0,
+      a4: 0,
+      d1: 0,
+      d2: 0,
+    },
+  });
+
+  useEffect(() => {
     //get api data
-    setState.isLoading = true;
-    axios.get('/api/bookings')
-    .then((res) =>{
-    let { movie, slot, seats } = res.data.data;
-    // console.log(movie, slot, seats)
+    setlastBooking({ iSfinishLoading: false });
+    axios
+      .get("/api/bookings")
+      .then((res) => {
+        if (res.data.data) {
+          let { movie, slot, seats } = res.data.data;
+          setlastBooking({
+            ...lastBooking,
+            movie: movie,
+            timeSlots: slot,
+            dataPresent: true,
+            iSfinishLoading: true,
+            seats: {
+              a1: seats.A1 ? seats.A1 : 0,
+              a2: seats.A2 ? seats.A2 : 0,
+              a3: seats.A3 ? seats.A3 : 0,
+              a4: seats.A4 ? seats.A4 : 0,
+              d1: seats.D1 ? seats.D1 : 0,
+              d2: seats.D2 ? seats.D2 : 0,
+            },
+          });
+        } else {
+          setlastBooking({
+            ...lastBooking,
+            dataPresent: false,
+            iSfinishLoading: true,
+          });
+        }
+      })
+      .catch((error) => {
+        setlastBooking({
+          ...lastBooking,
+          dataPresent: false,
+          iSfinishLoading: true,
+        });
 
-    setState({
-      ...state,
-      movie: movie,
-      timeSlots: slot,
-      seats: {
-        a1: seats.A1 ? seats.A1 : 0,
-        a2: seats.A2 ? seats.A2 : 0,
-        a3: seats.A3 ? seats.A3 : 0,
-        a4: seats.A4 ? seats.A4 : 0,
-        d1: seats.D1 ? seats.D1 : 0,
-        d2: seats.D2 ? seats.D2 : 0
-      },
-      // isLoading: false
+        console.log(error);
+      });
+  }, []);
 
-    })
-    }
-  )
-  .catch((error) => {
-setState.isLoading = false
-    console.log(error);
-  });}
-  , [])
+  //set a loader to load the data in  previous bookings details by using setTimeout with useEffect hook
+  useEffect(() => {
+    if (!state.isLoading) return;
+    // Set a timeout to hide the loader after 2 seconds
+    const loaderTimeout = setTimeout(() => {
+      setState({ isLoading: false });
+    }, 2000);
 
+    return () => {
+      setState({ showSuccessAlert: true });
+      clearTimeout(loaderTimeout); // Clean up the loader timeout when component unmounts
+    };
+  }, [state.isLoading]);
+
+  useEffect(() => {
+    if (!state.showSuccessAlert) return;
+    // Set a timeout to hide the loader after 2 seconds
+    const loaderTimeout = setTimeout(() => {
+      setState({ showSuccessAlert: false });
+    }, 2000);
+
+    return () => {
+      clearTimeout(loaderTimeout); // Clean up the loader timeout when component unmounts
+    };
+  }, [state.showSuccessAlert]);
+
+  // set state of movie selector in a function
   const movieSelectHandler = (item) => {
+    //update state
     setState((preState) => ({
       ...preState,
       movie: item,
     }));
   };
 
+  // set state of time Slot in a function
   const timeSlotSelectHandler = (item) => {
     //update state
     setState((preState) => ({
@@ -69,11 +139,9 @@ setState.isLoading = false
       timeSlots: item,
     }));
   };
-  // console.log(state)
 
+  //set state of seats in a function
   const seatSelectHandler = (e) => {
-    // console.log(e.target, 'hello')
-
     setState({
       ...state,
       seats: {
@@ -84,12 +152,25 @@ setState.isLoading = false
   };
 
   const submitBooking = (e) => {
-    // console.log(e.target, 'im in')
-    console.log({
-      movie: state.movie,
-      slot: state.timeSlots,
-      seats: state.seats,
-    });
+    const { movie, timeSlots, seats } = state;
+    const notSelectedAnySeat = Object.values(seats).every(
+      (field) => field === 0
+    ); // validation on seats
+
+    if (movie === "") {
+      enqueueSnackbar("Please Select a movie", "error");
+      return;
+    } else if (timeSlots === "") {
+      enqueueSnackbar("Please Select a time slot", "error");
+      return;
+    } else if (notSelectedAnySeat) {
+      enqueueSnackbar("Please Select Atleast one seat", "error");
+      return;
+    } else if (containesNegtiveVal(seats)) {
+      enqueueSnackbar("Invalid Seat Entered, Pelase re-Submit", "error");
+      return;
+    }
+
     axios
       .post("/api/bookings", {
         movie: state.movie,
@@ -102,21 +183,42 @@ setState.isLoading = false
           D1: Number(state.seats.d1),
           D2: Number(state.seats.d2),
         },
-      }
-      )
+      })
 
       .then((res) => {
-        if(res.status === 200){
+        if (res.status === 200) {
+          //set state in last bookings details
+          setlastBooking({
+            movie: state.movie,
+            timeSlots: state.timeSlots,
+            dataPresent: true,
+            iSfinishLoading: true,
+            seats: {
+              a1: state.seats.a1,
+              a2: state.seats.a2,
+              a3: state.seats.a3,
+              a4: state.seats.a4,
+              d1: state.seats.d1,
+              d2: state.seats.d2,
+            },
+          });
           setState({
-            showSuccessAlert: true
+            movie: "",
+            timeSlots: "",
+            dataPresent: false,
+            isLoading: true,
+            iSfinishLoading: false,
+            seats: {
+              a1: 0,
+              a2: 0,
+              a3: 0,
+              a4: 0,
+              d1: 0,
+              d2: 0,
+            },
+            showSuccessAlert: false,
           });
         }
-      else{
-        setState({
-          showSuccessAlert: false
-        });
-      }
-        console.log(res, "hiii");
       })
       .catch((error) => {
         console.log(error);
@@ -125,32 +227,39 @@ setState.isLoading = false
 
   return (
     <>
-    {state.showSuccessAlert &&
-        <Alert variant="success" onclick= {()=> setState({showSuccessAlert:false})} dismissible>
+      <SnackbarProvider />
+
+      {state.showSuccessAlert && (
+        <Alert
+          variant="success"
+          onClick={() => setState({ showSuccessAlert: false })}
+        >
           Booking successful!
         </Alert>
-      }
+      )}
       {/* heading */}
       <div className="m-5">
         <h3>Book that Show !!</h3>
       </div>
 
-
       <div className="container-fluid">
         <div className="row gx-5">
           <div className="col-md-8">
+            {/* movie selector container */}
             <SelectContainer
               mainheading="Select a Movie"
               items={movies}
               selectedValue={state.movie}
               onclick={movieSelectHandler}
             />
+            {/* timeslots container */}
             <SelectContainer
               mainheading="Select A Time Slot"
               items={slots}
               selectedValue={state.timeSlots}
               onclick={timeSlotSelectHandler}
             />
+            {/* seat container */}
             <SelectContainer
               mainheading="Select A Seats"
               type="number"
@@ -162,37 +271,33 @@ setState.isLoading = false
           </div>
           <div className="col-md-4">
             <LastBookingDetails
-              movieName={state.movie}
-              timing={state.timeSlots}
-              seat={state.seats}
+              movieName={lastBooking.movie}
+              timing={lastBooking.timeSlots}
+              seat={lastBooking.seats}
+              lastBookingPresent={lastBooking.dataPresent}
+              finishLoading={lastBooking.iSfinishLoading}
             />
           </div>
         </div>
-        <div style={{ margin: "10px 45px" }}>
+        <div style={{ margin: "10px 45px", position: "relative" }}>
           <button
+            className="BookingButton"
             variant="success"
-            onClick={(e) => submitBooking(e)}
-            style={{
-              background:
-                "linear-gradient( 20deg,rgb(13 153 16), rgb(13 153 16) 55%, rgb(111 217 86), rgb(114 114 112) 35%)",
-              fontWeight: 600,
-            }}
+            onClick={submitBooking}
           >
-          
-            {/* <Spinner
-          as="span"
-          animation="border"
-          size="sm"
-          role="status"
-          aria-hidden="true" */}
-        
-            Book Now
-
+            <span>
+              {state.isLoading ? ` Submitting... ` : ` Book Now `}
+              {state.isLoading ? (
+                <Spinner
+                  className="spinnerWrapper"
+                  animation="border"
+                  variant="dark"
+                />
+              ) : null}
+            </span>
           </button>
-          
         </div>
       </div>
-      
     </>
   );
 }
