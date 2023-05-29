@@ -13,8 +13,10 @@ export default function SelectContainer(props) {
             <div className="selectorWrapper">
             <div className="btn-group" role="group" aria-label="Basic outlined example">
 
+              {/* map function is used for movie, time slot and seat container */}
               {items.map((item,index) => (
                 <React.Fragment key={index}>
+                
                   {type !== "number" ? (
                     //movie or slot button
                     <button
@@ -44,6 +46,7 @@ export default function SelectContainer(props) {
                         value={seats && seats[item.toLowerCase()]}
                         onChange={(e) =>onchange(e)}
                         style={{ width: "77%" }}
+                        id={ `seat-${item}`}
                       />
                     </div>
                   )}

@@ -95,7 +95,7 @@ input {
 }
 
 .LastBooking{
-    border: 1px solid black;
+    border: 1px solid #d6d6d6;
     border-radius: 7px;
     padding: 12px;
     width: 310px;
@@ -104,10 +104,11 @@ input {
 }
 
 .ContainerStyle{
-    border: 1px solid black;
+    border: 1px solid #d6d6d6;
     border-radius: 10px;
     padding: 15px;
     margin-bottom: 15px;
+    width: 1000px;
 }
 
 .selectorWrapper{
@@ -132,6 +133,31 @@ input {
 
 .spinnerWrapper{
     position: absolute;
-    left: 120px;
+    left: 139px;
     top: -2px;
+}
+
+
+.booking_seat_sp {
+    font-weight: 500;
+}
+.heading_details{
+    font-weight: 600;
+}
+
+.name_movie{
+    color : #025464;
+    font-weight:600;
+
+}
+
+
+.seat_b {
+    font-weight: 600;
+    color: #025464;
+}
+
+.error_msg {
+    color:tomato;
+    font-weight: 500;
 }

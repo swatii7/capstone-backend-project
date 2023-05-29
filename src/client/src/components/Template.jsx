@@ -2,16 +2,19 @@ import axios from "axios";
 import { SnackbarProvider, enqueueSnackbar } from "notistack";
 import React, { useEffect, useState } from "react";
 import Alert from "react-bootstrap/Alert";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
 import Spinner from "react-bootstrap/Spinner";
 import LastBookingDetails from "./LastBookingDetails";
 import SelectContainer from "./SelectContainer";
 import { movies, seats, slots } from "./data.js";
 
-// function for seats (validation on negative numbers)
+// validation on negative numbers for seat input
 function containesNegtiveVal(seats) {
   let hasNegativeValue = false;
 
   for (const seat in seats) {
+    //check if the number is negative
     if (seats.hasOwnProperty(seat) && seats[seat] < 0) {
       hasNegativeValue = true;
       break;
@@ -52,6 +55,7 @@ export default function Template() {
       d1: 0,
       d2: 0,
     },
+    error: null,
   });
 
   useEffect(() => {
@@ -60,7 +64,15 @@ export default function Template() {
     axios
       .get("/api/bookings")
       .then((res) => {
-        if (res.data.data) {
+        console.log(res);
+        if (typeof res.data.message === "string") {
+          setlastBooking({
+            ...lastBooking,
+            error: res.data.message,
+            iSfinishLoading: true,
+            dataPresent: false,
+          });
+        } else if (res.data.data) {
           let { movie, slot, seats } = res.data.data;
           setlastBooking({
             ...lastBooking,
@@ -76,6 +88,7 @@ export default function Template() {
               d1: seats.D1 ? seats.D1 : 0,
               d2: seats.D2 ? seats.D2 : 0,
             },
+            error: null,
           });
         } else {
           setlastBooking({
@@ -95,6 +108,8 @@ export default function Template() {
         console.log(error);
       });
   }, []);
+
+  console.log(lastBooking, "lastBooking");
 
   //set a loader to load the data in  previous bookings details by using setTimeout with useEffect hook
   useEffect(() => {
@@ -153,10 +168,10 @@ export default function Template() {
 
   const submitBooking = (e) => {
     const { movie, timeSlots, seats } = state;
+    // validation
     const notSelectedAnySeat = Object.values(seats).every(
       (field) => field === 0
-    ); // validation on seats
-
+    );  
     if (movie === "") {
       enqueueSnackbar("Please Select a movie", "error");
       return;
@@ -171,6 +186,7 @@ export default function Template() {
       return;
     }
 
+    //post request
     axios
       .post("/api/bookings", {
         movie: state.movie,
@@ -224,7 +240,7 @@ export default function Template() {
         console.log(error);
       });
   };
-
+  console.log(lastBooking, lastBooking.error, "success");
   return (
     <>
       <SnackbarProvider />
@@ -242,62 +258,60 @@ export default function Template() {
         <h3>Book that Show !!</h3>
       </div>
 
-      <div className="container-fluid">
-        <div className="row gx-5">
-          <div className="col-md-8">
-            {/* movie selector container */}
-            <SelectContainer
-              mainheading="Select a Movie"
-              items={movies}
-              selectedValue={state.movie}
-              onclick={movieSelectHandler}
-            />
-            {/* timeslots container */}
-            <SelectContainer
-              mainheading="Select A Time Slot"
-              items={slots}
-              selectedValue={state.timeSlots}
-              onclick={timeSlotSelectHandler}
-            />
-            {/* seat container */}
-            <SelectContainer
-              mainheading="Select A Seats"
-              type="number"
-              items={seats}
-              seats={state.seats}
-              selectedValue={state.seats}
-              onchange={seatSelectHandler}
-            />
-          </div>
-          <div className="col-md-4">
-            <LastBookingDetails
-              movieName={lastBooking.movie}
-              timing={lastBooking.timeSlots}
-              seat={lastBooking.seats}
-              lastBookingPresent={lastBooking.dataPresent}
-              finishLoading={lastBooking.iSfinishLoading}
-            />
-          </div>
-        </div>
+      <Row>
+        <Col xs={12} md={8}>
+          {/* movie selector container */}
+          <SelectContainer
+            mainheading="Select a Movie"
+            items={movies}
+            selectedValue={state.movie}
+            onclick={movieSelectHandler}
+          />
+          {/* timeslots container */}
+          <SelectContainer
+            mainheading="Select A Time Slot"
+            items={slots}
+            selectedValue={state.timeSlots}
+            onclick={timeSlotSelectHandler}
+          />
+          {/* seat container */}
+          <SelectContainer
+            mainheading="Select A Seats"
+            type="number"
+            items={seats}
+            seats={state.seats}
+            selectedValue={state.seats}
+            onchange={seatSelectHandler}
+          />
+        </Col>
+        <Col xs={12} md={4}>
+          <LastBookingDetails
+            movieName={lastBooking.movie}
+            timing={lastBooking.timeSlots}
+            seat={lastBooking.seats}
+            lastBookingPresent={lastBooking.dataPresent}
+            finishLoading={lastBooking.iSfinishLoading}
+            errorMsg={lastBooking && lastBooking?.error}
+          />
+        </Col>
+
         <div style={{ margin: "10px 45px", position: "relative" }}>
           <button
             className="BookingButton"
             variant="success"
             onClick={submitBooking}
           >
-            <span>
-              {state.isLoading ? ` Submitting... ` : ` Book Now `}
-              {state.isLoading ? (
-                <Spinner
-                  className="spinnerWrapper"
-                  animation="border"
-                  variant="dark"
-                />
-              ) : null}
-            </span>
+            <span>{state.isLoading ? ` Submitting... ` : ` Book Now `}</span>
           </button>
+          {state.isLoading ? (
+            <Spinner
+              className="spinnerWrapper"
+              animation="border"
+              variant="dark"
+            />
+          ) : null}
         </div>
-      </div>
+      </Row>
     </>
   );
 }

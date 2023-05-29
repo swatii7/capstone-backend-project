@@ -1,30 +1,31 @@
 import React from "react";
 
 export default function LastBookingDetails(props) {
-  const { finishLoading, lastBookingPresent, seat, timing, movieName } = props;   //destructing props
+  const { finishLoading, lastBookingPresent, seat, timing, movieName ,errorMsg} = props;   //destructing prop0s
+  console.log(errorMsg,'errorMsg')
   return (
     <div className="LastBooking">
       <h4>Last Booking Details</h4>
 
-{/* condition is impose if there is no any booking found then gives a message of no previous booking found */}
-      {finishLoading && lastBookingPresent === false && (
+      {/* Check if there are any previous bookings */}
+            {finishLoading && lastBookingPresent === false && errorMsg &&  (
         <div>
-          <h3>No Previous Booking Found...!!</h3>
+          <h3 className="error_msg">{`${errorMsg}`}</h3>   {/* Display a message when no previous booking is found */}
         </div>
       )}
-
+{/* when last booking data is present and data fetching is finish*/}
       {lastBookingPresent && finishLoading && (
         <div>
           <ul style={{ listStyle: "none", display: "contents" }}>
-            <li>Seats:</li>
-            <li>A1: {seat && seat.a1 ? seat.a1 : 0} </li>
-            <li>A2: {seat && seat.a2 ? seat.a2 : 0}</li>
-            <li>A3: {seat && seat.a3 ? seat.a3 : 0}</li>
-            <li>A4: {seat && seat.a4 ? seat.a4 : 0}</li>
-            <li>D1: {seat && seat.d1 ? seat.d1 : 0}</li>
-            <li>D2: {seat && seat.d2 ? seat.d2 : 0}</li>
-            <li>Slot: {timing}</li>
-            <li>Movie: {movieName}</li>
+            <li className="heading_details">Seats:</li>
+            <li><span className="booking_seat_sp">A1:</span>  {seat && seat.a1 ? <span className="seat_b">{seat.a1}</span> : '--'} </li>
+            <li><span className="booking_seat_sp">A2:</span>  {seat && seat.a2 ? <span className="seat_b">{seat.a2}</span> : '--'}</li>
+            <li><span className="booking_seat_sp">A3:</span>  {seat && seat.a3 ? <span className="seat_b">{seat.a3}</span> : '--'}</li>
+            <li><span className="booking_seat_sp">A4:</span>  {seat && seat.a4 ? <span className="seat_b">{seat.a4}</span> : '--'}</li>
+            <li><span className="booking_seat_sp">D1:</span>  {seat && seat.d1 ? <span className="seat_b">{seat.d1}</span> : '--'}</li>
+            <li><span className="booking_seat_sp">D2:</span>  {seat && seat.d2 ? <span className="seat_b">{seat.d2}</span> : '--'}</li>
+            <li><span className="heading_details">Slot:</span>  <span className="seat_b">{timing}</span></li>
+            <li><span className="heading_details ">Movie:</span> <span className="name_movie">{movieName}</span></li>
           </ul>
         </div>
       )}
