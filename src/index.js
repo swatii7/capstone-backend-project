@@ -2,7 +2,7 @@
 const express = require("express");
 const app = express(); //constants
 const bodyParser = require("body-parser"); //core module
-const port = 8080;
+const port = require('./common');
 
 const path = require("path");
 const { connection } = require("./connector");

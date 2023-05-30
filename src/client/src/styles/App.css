@@ -1,3 +1,14 @@
+.btn.btn-secondary.btn-active,
+.btn.btn-secondary:focus {
+  background: #00ADB5 !important;
+  color: #EEEEEE !important;
+}
+
+.btn.btn-outline-secondary:hover {
+  background: #00ADB5 !important;
+  color: #EEEEEE !important;
+}
+
 .movie-column, .seat-column, .slot-column {
     display: inline-block;
     margin: 5px;
@@ -7,6 +18,19 @@
     line-height: 1px;
     border-radius: 5px;
     /* box-shadow: 0 0 5px 5px; */
+}
+
+.wrapper_container{
+    margin-left: 45px !important;
+}
+
+.mainWrapper {
+    margin: 0px 25px !important;
+    border: 2px solid #222831;
+    padding: 59px 12px 59px 25px;
+    width: 94%;
+    border-radius: 20px;
+    background-color: #EEEEEE;
 }
 
 .movie-row, .seat-row, .slot-row {
@@ -58,14 +82,7 @@ input {
     ;
 }
 
-/* .btn:hover{
-    background-color: #d37373 !important;
-    color : black !important
-  }
-  
-  
-  */
-  
+
   .active-btn{
     background-color: #d37373 !important;
     
@@ -95,7 +112,7 @@ input {
 }
 
 .LastBooking{
-    border: 1px solid #d6d6d6;
+    border: 1px solid #222831;
     border-radius: 7px;
     padding: 12px;
     width: 310px;
@@ -104,11 +121,15 @@ input {
 }
 
 .ContainerStyle{
-    border: 1px solid #d6d6d6;
+    border: 1px solid #222831;
     border-radius: 10px;
     padding: 15px;
     margin-bottom: 15px;
-    width: 1000px;
+    width: 100%;
+}
+
+.ContainerHeading {
+    color: #393E46;
 }
 
 .selectorWrapper{
@@ -118,7 +139,7 @@ input {
 
 .seatWrapper{
     border: 1px solid black;
-    margin: 0px 14px 0px 4px;
+    margin: 0px 14px 10px 4px;
     border-radius: 8px;
     padding: 10px 0px 10px 21px;
     width: 116px;
@@ -160,4 +181,37 @@ input {
 .error_msg {
     color:tomato;
     font-weight: 500;
+}
+
+
+  .seatWrapper:focus-within {
+    background-color: #00ADB5;
+    color: #EEEEEE;
+  }
+
+  .booked_seat_wrapper {
+    border: 1px solid;
+    border-radius: 7px;
+    padding: 12px 25px;
+    width: 173px;
+    margin-left: 52px;
+    margin-bottom: 10px;
+    background-color: #d2e7e8;
+  }
+
+  .seat_booked {
+    font-weight: 600;
+    color: #025464;
+    background-color: #EEEEEE;
+    padding: 4px 20px;
+    margin: 7px 10px;
+    border-radius: 4px;
+    display: flex;
+    width: 55px;
+}
+
+
+.btnSelecter {
+    font-size: 16px !important;
+    padding: 15px 10px !important;
 }
