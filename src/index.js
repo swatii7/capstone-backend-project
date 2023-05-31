@@ -2,7 +2,8 @@
 const express = require("express");
 const app = express(); //constants
 const bodyParser = require("body-parser"); //core module
-const port = require('./common');
+const app_config = require('./common');
+
 
 const path = require("path");
 const { connection } = require("./connector");
@@ -16,7 +17,7 @@ const cors = require("cors"); // Third party module
 app.use(cors());
 
 //get api for orders
-app.get("/api/bookings", function (req, res) {
+app.get(app_config.get_bookings, function (req, res) {
   try {
     //get last booking
     connection.findOne({}, {}, { sort: { _id: -1 } }, (error, data) => {
@@ -39,7 +40,7 @@ app.get("/api/bookings", function (req, res) {
 });
 
 //post api for bookings insert data
-app.post("/api/bookings", function (req, res) {
+app.post(app_config.post_bookings, function (req, res) {
   const { movie, slot, seats } = req.body; //destructing
   //validation
   if (!movie || !slot || !seats) {
@@ -72,6 +73,6 @@ app.post("/api/bookings", function (req, res) {
 });
 
 // Start server
-app.listen(port, () => console.log(`App listening on port ${port}!`));
+app.listen(app_config.app_port, () => console.log(`App listening on port ${app_config.app_port}!`));
 
 module.exports = app;

@@ -1,3 +1,7 @@
-const APP_PORT = 8080;
+const config= {
+   app_port: 8080,
+    get_bookings :"/api/bookings",
+    post_bookings :"/api/bookings"
+}
 
-module.exports = APP_PORT
+module.exports = config;

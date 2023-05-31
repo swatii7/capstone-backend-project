@@ -10,6 +10,7 @@ import SelectContainer from "./SelectContainer";
 import SetSeatSelector from "./SetSeatSelector";
 import useLocalStorage from "./UseLocalStorage";
 import { movies, seats, slots } from "./data.js";
+import app_config from '../../../common.js'
 
 // validation on negative numbers for seat input
 function containesNegtiveVal(seats) {
@@ -70,7 +71,7 @@ export default function Template() {
     //get api data
     setlastBooking({ iSfinishLoading: false });
     axios
-      .get("/api/bookings")
+      .get(app_config.get_bookings)
       .then((res) => {
         console.log(res);
         if (typeof res.data.message === "string") {
@@ -174,7 +175,7 @@ export default function Template() {
     
     //post request
     axios
-      .post("/api/bookings", {
+      .post(app_config.post_bookings, {
         movie: state.movie,
         slot: state.timeSlots,
         seats: {
