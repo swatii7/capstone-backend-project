@@ -1,8 +1,10 @@
 const mongodb = require('mongodb');
 require('dotenv').config();
 let mongoose = require('mongoose');
-console.log('environment_type', process.env.NODE_ENV)
-const mongoURI = process.env.NODE_ENV === 'production' ? process.env.MONGODBURI : process.env.MONGODBLIVE;
+// console.log('environment_type', process.env.NODE_ENV)
+const mongoURI = "mongodb+srv://swatic946:QeTaVVbBDWdS8BS0@capstoneproject.djxigtu.mongodb.net/bookMovie";
+
+// process.env.NODE_ENV === 'production' ? process.env.MONGODBURI : 
 const { bookMovieSchema } = require('./schema')
 
 
