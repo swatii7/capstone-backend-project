@@ -1,8 +1,9 @@
 const mongodb = require('mongodb');
-
-const mongoURI = "mongodb://localhost:27017/" + "bookMovie"
-
+require('dotenv').config();
 let mongoose = require('mongoose');
+console.log('environment_type', process.env.NODE_ENV)
+const mongoURI = process.env.NODE_ENV === 'production' ? process.env.MONGO_DB_URI : process.env.MONGO_DB_URI_lIVE;
+
 const { bookMovieSchema } = require('./schema')
 
 
