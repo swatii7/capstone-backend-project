@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../axiosConfig";
 import { SnackbarProvider, enqueueSnackbar } from "notistack";
 import React, { useEffect, useState } from "react";
 import Alert from "react-bootstrap/Alert";
