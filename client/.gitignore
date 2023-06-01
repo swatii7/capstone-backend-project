@@ -1,0 +1,8 @@
+node_modules
+dist
+# Environment files
+.env
+.env.*
+
+# Ignore package lock file
+package-lock.json

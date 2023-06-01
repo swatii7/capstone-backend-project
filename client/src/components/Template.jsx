@@ -10,7 +10,7 @@ import SelectContainer from "./SelectContainer";
 import SetSeatSelector from "./SetSeatSelector";
 import useLocalStorage from "./UseLocalStorage";
 import { movies, seats, slots } from "./data.js";
-import app_config from '../../../common.js'
+import app_config from '../../../src/common'
 
 // validation on negative numbers for seat input
 function containesNegtiveVal(seats) {
@@ -65,7 +65,6 @@ export default function Template() {
     error: null,
   });
 
-  console.log(lastBooking,' im in 63')
 
   useEffect(() => {
     //get api data
