@@ -41,6 +41,7 @@ app.get(app_config.get_bookings, function (req, res) {
 
 //post api for bookings insert data
 app.post(app_config.post_bookings, function (req, res) {
+  console.log()
   const { movie, slot, seats } = req.body; //destructing
   //validation
   if (!movie || !slot || !seats) {
