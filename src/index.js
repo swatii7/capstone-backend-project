@@ -72,6 +72,17 @@ app.post(app_config.post_bookings, function (req, res) {
   }
 });
 
+//default URL
+app.get('/' , function (req, res) {
+  try {
+    //get last booking
+res.send("Book MyShow is live!")
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 // Start server
 app.listen(app_config.app_port, () => console.log(`App listening on port ${app_config.app_port}!`));
 

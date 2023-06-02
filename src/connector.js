@@ -3,22 +3,16 @@ const app = express(); //constants
 const mongodb = require('mongodb');
 require('dotenv').config();
 let mongoose = require('mongoose');
-// console.log('environment_type', process.env.NODE_ENV)
-const mongoURI = "mongodb+srv://swatic946:QeTaVVbBDWdS8BS0@capstoneproject.djxigtu.mongodb.net/bookMovie";
 
-
+/** function will check app is running on local server or live */
 const isLocalhost = () => {
-    const hostname = process.env.HOSTNAME || process.env.HOST;
-    return hostname === 'localhost';
+
+  return process.env.NODE_ENV === "production" ? true : false;
+
   };
   
-  if (isLocalhost()) {
-    console.log('Application is running in localhost environment.');
-  } else {
-    console.log('Application is running in a remote environment.');
-  }
+const mongoURI = isLocalhost()? process.env.MONGODBLIVE: process.env.MONGODBURI;
 
-  
 const { bookMovieSchema } = require('./schema')
 
 
