@@ -50,14 +50,14 @@ Booking
 
 - get booking
 ```http
-  GET /api/bookings
+  GET /api/booking
 ```
 
 - post booking
 Returns a list of all bookings stored in the database in JSON format.
 
 ```http
-  POST /api/bookings
+  POST /api/booking
 ```
 
 | Parameter | Type     | Description                       |

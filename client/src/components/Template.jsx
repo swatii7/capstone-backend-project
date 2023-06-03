@@ -10,7 +10,8 @@ import SelectContainer from "./SelectContainer";
 import SetSeatSelector from "./SetSeatSelector";
 import useLocalStorage from "./UseLocalStorage";
 import { movies, seats, slots } from "./data.js";
-import app_config from '../../../src/common'
+import app_config from '../common'
+import BackdropLoader from "../components/BackdropLoader";
 
 // validation on negative numbers for seat input
 function containesNegtiveVal(seats) {
@@ -38,7 +39,7 @@ const initialState = {
     d1: 0,
     d2: 0,
   },
-  isLoading: false,
+ 
   showSuccessAlert: false,
 }
 
@@ -63,6 +64,7 @@ export default function Template() {
       d2: 0,
     },
     error: null,
+    isLoading: false,
   });
 
 
@@ -154,6 +156,7 @@ export default function Template() {
   const submitBooking = (e) => {
   const { movie, timeSlots, seats } = state;
 
+
   // Validation
   const notSelectedAnySeat = Object.values(seats).every((field) => field === 0);
 
@@ -171,6 +174,13 @@ export default function Template() {
     enqueueSnackbar("Invalid Seat Entered, Please re-Submit", {variant:'error'});
     return;
   }
+
+  setlastBooking({
+    ...lastBooking,
+
+    isLoading: true,
+
+  });
     
     //post request
     axios
@@ -196,6 +206,7 @@ export default function Template() {
             timeSlots: state.timeSlots,
             dataPresent: true,
             iSfinishLoading: true,
+            isLoading: false,
             seats: {
               a1: state.seats.a1,
               a2: state.seats.a2,
@@ -210,7 +221,7 @@ export default function Template() {
             movie: "",
             timeSlots: "",
             dataPresent: false,
-            isLoading: false,
+           
             iSfinishLoading: false,
             seats: {
               a1: 0,
@@ -230,13 +241,19 @@ export default function Template() {
         
       })
       .catch((error) => {
+        setlastBooking({
+          ...lastBooking,
+          isLoading: false,
+        });
         console.log(error);
+
       });
   };
 
   return (
    <Container>
    <SnackbarProvider />
+   <BackdropLoader show={lastBooking.isLoading} />
 
 {state.showSuccessAlert && (
   <Alert
@@ -250,7 +267,10 @@ export default function Template() {
 {/* main heading*/}
     <Row>
       <Col className="p-3" >
-        <h5 style={{color: "#116D6E"}}>Book Show</h5>
+        <h5 style={{  color: "#ff7043",
+  background: "#fbfbfb",
+  borderRadius: "4px",
+  padding: "15px 20px"}}>Book My Show</h5>
       </Col>
     </Row>
 
@@ -283,6 +303,7 @@ export default function Template() {
             selectedValue={state.seats}
             onchange={seatSelectHandler}
             display="inline"
+            submitBooking={submitBooking}
           />
       </Col>
 
@@ -299,17 +320,7 @@ export default function Template() {
       </Col>
     </Row>
 
-{/* book now button */}
-    <div style={{ margin: "10px 45px", position: "relative" }}>
-          <button
-            className="BookingButton"
-            variant="success"
-            onClick={submitBooking}
-          >
-            <span>Book Now</span>
-          </button>
-         
-        </div>
+
 
   </Container>
 

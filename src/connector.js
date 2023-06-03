@@ -5,13 +5,11 @@ require('dotenv').config();
 let mongoose = require('mongoose');
 
 /** function will check app is running on local server or live */
-const isLocalhost = () => {
-
+const isProduction = () => {
   return process.env.NODE_ENV === "production" ? true : false;
-
   };
   
-const mongoURI = isLocalhost()? process.env.MONGODBLIVE: process.env.MONGODBURI;
+const mongoURI = isProduction() ? process.env.MONGODBLIVE: process.env.MONGODBURI;
 
 const { bookMovieSchema } = require('./schema')
 
@@ -21,7 +19,7 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .catch(err => {
         console.log("error while connection", err)
     });
-let collection_connection = mongoose.model('bookmovietickets', bookMovieSchema)
+let collection_connection = mongoose.model(process.env.COLLECTION_NAME, bookMovieSchema)
 
 
 exports.connection = collection_connection;

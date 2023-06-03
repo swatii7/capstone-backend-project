@@ -132,6 +132,13 @@ input {
     color: #393E46;
 }
 
+.ContainerStyle, .LastBooking {
+    background-color: rgb(251, 251, 251);
+}
+
+.ContainerStyle .btnSelecter {
+    background-color: #ffffff;
+}
 .selectorWrapper{
     display: flex;
     padding: 19px 0px;
@@ -147,8 +154,14 @@ input {
 
 .BookingButton{
 
-    background: radial-gradient(circle, rgb(238, 174, 202) 0%, rgba(148, 187, 233, 0.325) 100%);
+    background:  #ff7043;
+    color :#ffffff;
     font-weight: 600;
+    border-radius: 4px;
+    box-shadow: none;
+    border: none !important;
+    padding: 5px 15px;
+
 
 }
 
@@ -167,7 +180,7 @@ input {
 }
 
 .name_movie{
-    color : #025464;
+    color : #ff7043;
     font-weight:600;
 
 }
@@ -175,11 +188,11 @@ input {
 
 .seat_b {
     font-weight: 600;
-    color: #025464;
+    color: #ff7043;
 }
 
 .error_msg {
-    color:tomato;
+    color:#ff7043;
     font-weight: 500;
 }
 
@@ -196,12 +209,13 @@ input {
     width: 173px;
     margin-left: 52px;
     margin-bottom: 10px;
-    background-color: #d2e7e8;
+    background-color: #00adb5;
+    color:#EEEEEE;
   }
 
   .seat_booked {
     font-weight: 600;
-    color: #025464;
+    color: tomato;
     background-color: #EEEEEE;
     padding: 4px 20px;
     margin: 7px 10px;
@@ -215,3 +229,7 @@ input {
     font-size: 16px !important;
     padding: 15px 10px !important;
 }
+
+.modal-content{
+    border: 0px solid !important;
+} 

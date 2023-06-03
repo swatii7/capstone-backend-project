@@ -2,8 +2,6 @@
 const express = require("express");
 const app = express(); //constants
 const bodyParser = require("body-parser"); //core module
-const app_config = require('./common');
-
 
 const path = require("path");
 const { connection } = require("./connector");
@@ -17,7 +15,7 @@ const cors = require("cors"); // Third party module
 app.use(cors());
 
 //get api for orders
-app.get(app_config.get_bookings, function (req, res) {
+app.get(process.env.GET_REQUEST, function (req, res) {
   try {
     //get last booking
     connection.findOne({}, {}, { sort: { _id: -1 } }, (error, data) => {
@@ -40,7 +38,7 @@ app.get(app_config.get_bookings, function (req, res) {
 });
 
 //post api for bookings insert data
-app.post(app_config.post_bookings, function (req, res) {
+app.post(process.env,POST_REQUEST, function (req, res) {
   console.log()
   const { movie, slot, seats } = req.body; //destructing
   //validation
@@ -85,6 +83,6 @@ res.send("Book MyShow is live!")
 });
 
 // Start server
-app.listen(app_config.app_port, () => console.log(`App listening on port ${app_config.app_port}!`));
+app.listen(process.env.APP_PORT ? process.env.APP_PORT : 8080 , () => console.log(`App listening on port ${process.env.APP_PORT ? process.env.APP_PORT : 8080}!`));
 
 module.exports = app;
