@@ -1,7 +1,6 @@
 node_modules/
 # Environment files
-.env
-.env.*
+
 
 # Ignore package lock file
 package-lock.json
