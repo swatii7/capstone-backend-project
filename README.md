@@ -155,8 +155,3 @@ or if it is on live set production
 
 **database:** MongoDB
 
-
-## Support
-[![email](swatic946@gmail.com)](https://www.gmail.com)
-[![linkedin](https://www.linkedin.com/in/swati-chaudhary-7b50b6240/)](https://www.linkedin.com/)
-[![github](https://github.com/swatii7)](https://www.github.com/)
