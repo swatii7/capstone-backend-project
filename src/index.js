@@ -38,7 +38,7 @@ app.get(process.env.GET_REQUEST, function (req, res) {
 });
 
 //post api for bookings insert data
-app.post(process.env,POST_REQUEST, function (req, res) {
+app.post(process.env.POST_REQUEST, function (req, res) {
   console.log()
   const { movie, slot, seats } = req.body; //destructing
   //validation
