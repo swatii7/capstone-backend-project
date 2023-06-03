@@ -1,4 +1,7 @@
 
+# Hi, I'm Swati Chaudhary! 👋
+
+I am Full stack Intern at Almabetter and this is my second project, on Book My Show
 # Book MyShow
 
 
@@ -50,14 +53,14 @@ Booking
 
 - get booking
 ```http
-  GET /api/booking
+  GET /api/bookings
 ```
 
 - post booking
 Returns a list of all bookings stored in the database in JSON format.
 
 ```http
-  POST /api/booking
+  POST /api/bookings
 ```
 
 | Parameter | Type     | Description                       |
@@ -115,9 +118,34 @@ To run this project, you will need to add the following environment variables to
 Note : your mongodb clustur connect key
 `API_KEY`
 
+# For Backend
+
+- MongoDb live connection string
 
 `MONGODBURI: mongodb+srv://<user_name>:<password>@mongodb_connection_string/database_name`
 
+- MongoDb local connection string (if you set application on localhost)
+
+`MONGODBURI = mongodb://localhost:27017/<database_name> `
+
+`COLLECTION_NAME = <collection_name>`
+
+- if application is running on localhost set node_env development
+or if it is on live set production
+`NODE_ENV =  development (development || production)`
+
+`APP_PORT = 8080 `
+
+- api routes path
+
+`GET_REQUEST = /api/booking`
+`POST_REQUEST = /api/booking`
+
+# For Frontend
+
+`REACT_APP_API_LOCAL_PATH = http://localhost:3000`
+
+`REACT_APP_API_LIVE_PATH = https://capstone-project-1wft.onrender.com`
 
 ## Tech Stack
 
@@ -126,3 +154,9 @@ Note : your mongodb clustur connect key
 **Server:** Node, Express
 
 **database:** MongoDB
+
+
+## Support
+[![email](swatic946@gmail.com)](https://www.gmail.com)
+[![linkedin](https://www.linkedin.com/in/swati-chaudhary-7b50b6240/)](https://www.linkedin.com/)
+[![github](https://github.com/swatii7)](https://www.github.com/)
